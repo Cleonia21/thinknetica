@@ -7,26 +7,22 @@
 # находящихся на станции).
 
 class Station
-  attr_reader :trains_cargo, :trains_passenger
+  attr_reader :trains
 
   def initialize(title)
     @title = title
-    @trains_cargo = []
-    @trains_passenger = []
-  end
-
-  def add_trains(train)
-    @trains_cargo << train if train.type == 'cargo'
-    @trains_passenger << train if train.type == 'passenger'
+    @trains = []
   end
 
   def send_train(train)
-    @trains_cargo.delete(train)
-    @trains_passenger.delete(train)
+    @trains.delete(train)
   end
 
-  def trains
-    trains = [@trains_cargo, @trains_passenger]
-    trains.flatten
+  def add_train(train)
+    @trains << train
+  end
+
+  def trains_by(type)
+    @trains.find_all { |t| t.type == type }
   end
 end

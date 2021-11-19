@@ -38,7 +38,7 @@ class Train
   end
 
   def route=(route)
-    @stations = route.stations
+    @route = route
     @route_location = 0
   end
 
@@ -47,22 +47,18 @@ class Train
   end
 
   def move_forward
-    @route_location += 1 if @stations.length != @route_location + 1
+    @route_location += 1 if @route.length != @route_location + 1
   end
 
   def previous_station
-    if @route_location.zero?
-      nil
-    else
-      @stations[@route_location - 1]
-    end
+    @route[@route_location - 1] unless @route_location.zero?
   end
 
   def station
-    @stations[@route_location]
+    @route[@route_location]
   end
 
   def next_station
-    @stations[@route_location + 1]
+    @route[@route_location + 1]
   end
 end

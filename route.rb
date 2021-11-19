@@ -7,23 +7,21 @@
 # + Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-  attr_reader :stations
+  attr_reader :route
 
   def initialize(first, last)
     @first = first
     @last = last
-    @stations = [first, last]
+    @route = [first, last]
   end
 
   def add_station(station)
-    @stations.pop
-    @stations.push(station)
-    @stations.push(@last)
+    @route.insert(-1, station)
   end
 
   def delete_station(station)
     if station != @first && station != @last
-      @stations.delete(station)
+      @route.delete(station)
     else
       puts 'You can t dell first or last station'
     end
