@@ -10,8 +10,6 @@ class Route
   attr_reader :route
 
   def initialize(first, last)
-    @first = first
-    @last = last
     @route = [first, last]
   end
 
@@ -20,7 +18,7 @@ class Route
   end
 
   def delete_station(station)
-    if station != @first && station != @last
+    if station != @route[0] && station != @route[-1]
       @route.delete(station)
     else
       puts 'You can t dell first or last station'
