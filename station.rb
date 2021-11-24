@@ -7,7 +7,7 @@
 # находящихся на станции).
 
 class Station
-  attr_reader :trains
+  attr_reader :trains, :title
 
   def initialize(title)
     @title = title
