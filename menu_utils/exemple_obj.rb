@@ -38,6 +38,20 @@ class ExempleObj
     trains
   end
 
+  def carriages
+    carriages = []
+    carriages[0] = Carriage.new(12_432, 'passenger')
+    carriages[1] = Carriage.new(32_455, 'passenger')
+    carriages[2] = Carriage.new(64_342, 'passenger')
+    carriages[3] = Carriage.new(23_423, 'cargo')
+    carriages[4] = Carriage.new(53_323, 'cargo')
+    carriages[5] = Carriage.new(95_856, 'cargo')
+    carriages[6] = Carriage.new(21_435, 'empty')
+    carriages[7] = Carriage.new(93_923, 'empty')
+    carriages[8] = Carriage.new(60_211, 'empty')
+    carriages
+  end
+
   private
 
   def put_station_in_route(first, stations, last)
