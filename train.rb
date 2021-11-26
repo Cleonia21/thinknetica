@@ -13,33 +13,40 @@
 # + Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад,
 # но только на 1 станцию за раз.
 # + Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
+#
+# Разделить поезда на два типа PassengerTrain и CargoTrain,
+# сделать родителя для классов, который будет содержать общие методы и свойства
+#
+# Вагоны теперь делятся на грузовые и пассажирские (отдельные классы).
+# К пассажирскому поезду можно прицепить только пассажирские, к грузовому - грузовые.
+#
+# При добавлении вагона к поезду, объект вагона должен передаваться как аргумент метода
+# и сохраняться во внутреннем массиве поезда, в отличие от предыдущего задания,
+# где мы считали только кол-во вагонов. Параметр конструктора "кол-во вагонов" при этом можно удалить.
 
 class Train
-  attr_accessor :speed
-  attr_reader :number_of_cars
+  attr_accessor :speed, :route
+  attr_reader :carriages, :number, :type
 
-  def initialize(number, type, number_of_cars)
-    @speed = 0
+  def initialize(number, type)
     @number = number
+    @speed = 0
+    @carriages = []
+    @route = nil
+    @route_location = 0
     @type = type
-    @number_of_cars = number_of_cars
+  end
+
+  def attach_carriage(carriage)
+    @carriages << carriage if @speed.zero? && carriage.type == @type
+  end
+
+  def unhook_carriage(carriage)
+    @carriages.delete(carriage) if @speed.zero? && carriage.type == @type
   end
 
   def brake_speed
     @speed = 0
-  end
-
-  def attach_car
-    @number_of_cars += 1 if @speed.zero?
-  end
-
-  def unhook_car
-    @number_of_cars -= 1 if @speed.zero? && @number_of_cars != 0
-  end
-
-  def route=(route)
-    @route = route
-    @route_location = 0
   end
 
   def move_back
@@ -47,18 +54,18 @@ class Train
   end
 
   def move_forward
-    @route_location += 1 if @route.length != @route_location + 1
+    @route_location += 1 if @route.stations.length != @route_location + 1
   end
 
   def previous_station
-    @route[@route_location - 1] unless @route_location.zero?
+    @route.stations[@route_location - 1] unless @route_location.zero? || @route.nil?
   end
 
   def station
-    @route[@route_location]
+    @route.stations[@route_location] unless @route.nil?
   end
 
   def next_station
-    @route[@route_location + 1]
+    @route.stations[@route_location + 1] unless @route.nil?
   end
 end
