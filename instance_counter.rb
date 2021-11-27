@@ -6,7 +6,7 @@ module InstanceCounter
 
   module InstansMethods
     def register_instance
-      self.class.copy_number = 0 if self.class.copy_number.nil?
+      self.class.copy_number ||= 0
       self.class.copy_number += 1
     end
   end
@@ -15,6 +15,7 @@ module InstanceCounter
     attr_accessor :copy_number
 
     def instances
+      @copy_number ||= 0
       @copy_number
     end
   end

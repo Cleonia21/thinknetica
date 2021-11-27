@@ -14,15 +14,15 @@ require_relative 'instance_counter'
 # text_menu = TextMenu.new
 # text_menu.process
 
-Station.new('jkev')
-Station.new('jkev')
-Station.new('jkev')
-Station.new('jkev')
-Station.new('jkev')
-Train.new(123, 'cw')
-Route.new('3123', '1231')
-Route.new('3123', '1231')
-Route.new('3123', '1231')
+# Station.new('jkev')
+# Station.new('jkev')
+# Station.new('jkev')
+# Station.new('jkev')
+# Station.new('jkev')
+# Train.new(123, 'cw')
+# Route.new('3123', '1231')
+# Route.new('3123', '1231')
+# Route.new('3123', '1231')
 
 puts Station.instances
 puts Train.instances
