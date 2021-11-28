@@ -11,19 +11,19 @@ require_relative 'menu_utils/user_print'
 require_relative 'company'
 require_relative 'instance_counter'
 
-# text_menu = TextMenu.new
-# text_menu.process
+text_menu = TextMenu.new
+text_menu.process
 
 # Station.new('jkev')
 # Station.new('jkev')
 # Station.new('jkev')
 # Station.new('jkev')
 # Station.new('jkev')
-# Train.new(123, 'cw')
+# Train.new('1Daa1', 'Cargo')
 # Route.new('3123', '1231')
 # Route.new('3123', '1231')
 # Route.new('3123', '1231')
 
-puts Station.instances
-puts Train.instances
-puts Route.instances
+# puts Station.instances
+# puts Train.instances
+# puts Route.instances

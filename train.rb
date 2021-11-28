@@ -5,6 +5,9 @@ class Train
   attr_accessor :speed, :route
   attr_reader :carriages, :number, :type
 
+  NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i
+  TYPE_FORMAT = /(Cargo|Passenger|Empty)/
+
   include Company
   include InstanceCounter
 
@@ -19,6 +22,7 @@ class Train
     @type = type
     @@find << self
     register_instance
+    valid!
   end
 
   def self.find(number)
@@ -59,4 +63,19 @@ class Train
   def next_station
     @route.stations[@route_location + 1] unless @route.nil?
   end
+
+  def valid?
+    valid!
+      true
+    rescue
+      false
+  end
+
+  private
+
+  def valid!
+    raise "incorrect train type format" if @type !~ TYPE_FORMAT
+    raise "incorrect train number format" if @number !~ NUMBER_FORMAT
+  end
+
 end
