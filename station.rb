@@ -11,6 +11,8 @@ require_relative 'instance_counter'
 class Station
   attr_reader :trains, :title
 
+  TITLE_FORMAT = /[a-z]/i
+
   @@all = []
 
   include InstanceCounter
@@ -36,5 +38,18 @@ class Station
 
   def trains_by(type)
     @trains.find_all { |t| t.type == type }
+  end
+
+  def valid?
+    valid!
+    true
+  rescue
+    false
+  end
+
+  private
+
+  def valid!
+    raise "incorrect title format" if @title !~ TITLE_FORMAT
   end
 end
