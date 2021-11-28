@@ -1,6 +1,4 @@
 class TextMenu
-  attr_accessor :routes, :stations, :trains, :carriages
-
   def initialize
     @stations = []
     @trains = []
@@ -9,6 +7,41 @@ class TextMenu
     @print_obj = PrintObj.new
     @user_print = UserPrint.new
   end
+
+  def process
+    exemple_obj = ExempleObj.new
+    @carriages = exemple_obj.carriages
+    answer = 1
+
+    while answer != 0
+      invite
+      answer = gets.to_i
+      case answer
+      when 1
+        make_station
+      when 2
+        make_train
+      when 3
+        make_route
+      when 4
+        change_stations_in_route
+      when 5
+        assign_route_to_train
+      when 6
+        changes_in_train_carriage
+      when 7
+        move_train
+      when 8
+        view
+      when 9
+        @routes = exemple_obj.routes
+        @trains = exemple_obj.trains
+        @stations = exemple_obj.stations
+      end
+    end
+  end
+
+  private
 
   def invite
     puts 'enter  1: make station'
@@ -136,7 +169,7 @@ class TextMenu
     @print_obj.route(@trains[train_i].route)
     puts 'now the train is at the station:'
     @print_obj.station(@trains[train_i].station)
-    case puts_gets_return 'move back/forward - 1/2'.to_i
+    case puts_gets_return('move back/forward - 1/2').to_i
     when 1
       trains[train_i].move_back
     when 2
@@ -179,8 +212,6 @@ class TextMenu
     end
     gets
   end
-
-  private
 
   def puts_gets_return(puts_text)
     puts puts_text

@@ -6,12 +6,24 @@
 # + Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов,
 # находящихся на станции).
 
+require_relative 'instance_counter'
+
 class Station
   attr_reader :trains, :title
+
+  @@all = []
+
+  include InstanceCounter
 
   def initialize(title)
     @title = title
     @trains = []
+    @@all << self
+    register_instance
+  end
+
+  def self.all
+    @@all
   end
 
   def send_train(train)
