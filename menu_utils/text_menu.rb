@@ -66,18 +66,22 @@ class TextMenu
 
   # 2
   def make_train
-    number = puts_gets_return('write train number').to_i
+    number = puts_gets_return('write train number').chomp
     type = puts_gets_return('write train type').chomp
     puts 'enter 1: make train'
     puts 'enter 2: make cargo train'
     puts 'enter 3: make passenger train'
     answer = gets.to_i
+    raise 'incorrect input' unless [1, 2, 3].include?(answer)
     @trains << Train.new(number, type) if answer == 1
     @trains << CargoTrain.new(number, type) if answer == 2
     @trains << PassengerTrain.new(number, type) if answer == 3
-    puts 'was make train:' if [1, 2, 3].include?(answer)
-    @print_obj.train(@trains[-1]) if [1, 2, 3].include?(answer)
+    puts 'was make train:'
+    @print_obj.train(@trains[-1])
     puts_gets_return('push to continue')
+  rescue RuntimeError => e
+    puts e.inspect
+    retry
   end
 
   # 3

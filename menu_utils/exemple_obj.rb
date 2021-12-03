@@ -38,17 +38,19 @@ class ExempleObj
     trains
   end
 
+  # NUMBER_FORMAT = /^\d{3}\w$/
+  # TYPE_FORMAT = /(Cargo | Passenger | Empty)/
   def carriages
     carriages = []
-    carriages[0] = Carriage.new(12_432, 'passenger')
-    carriages[1] = Carriage.new(32_455, 'passenger')
-    carriages[2] = Carriage.new(64_342, 'passenger')
-    carriages[3] = Carriage.new(23_423, 'cargo')
-    carriages[4] = Carriage.new(53_323, 'cargo')
-    carriages[5] = Carriage.new(95_856, 'cargo')
-    carriages[6] = Carriage.new(21_435, 'empty')
-    carriages[7] = Carriage.new(93_923, 'empty')
-    carriages[8] = Carriage.new(60_211, 'empty')
+    carriages[0] = Carriage.new('001A', 'Passenger')
+    carriages[1] = Carriage.new('002B', 'Passenger')
+    carriages[2] = Carriage.new('003C', 'Passenger')
+    carriages[3] = Carriage.new('004D', 'Cargo')
+    carriages[4] = Carriage.new('005E', 'Cargo')
+    carriages[5] = Carriage.new('006F', 'Cargo')
+    carriages[6] = Carriage.new('007G', 'Empty')
+    carriages[7] = Carriage.new('008H', 'Empty')
+    carriages[8] = Carriage.new('009I', 'Empty')
     carriages
   end
 
