@@ -25,6 +25,10 @@ class Train
     valid!
   end
 
+  def action_over_carriage(&block)
+    @carriages.each { |carriage| block.call(carriage) }
+  end
+
   def self.find(number)
     @@find.each do |train|
       return train if train.number == number
