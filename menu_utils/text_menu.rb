@@ -9,8 +9,6 @@ class TextMenu
   end
 
   def process
-    exemple_obj = ExempleObj.new
-    @carriages = exemple_obj.carriages
     answer = 1
 
     while answer != 0
@@ -24,19 +22,26 @@ class TextMenu
       when 3
         make_route
       when 4
-        change_stations_in_route
+        make_carriage
       when 5
-        assign_route_to_train
+        change_stations_in_route
       when 6
-        changes_in_train_carriage
+        assign_route_to_train
       when 7
-        move_train
+        changes_in_train_carriage
       when 8
-        view
+        move_train
       when 9
-        @routes = exemple_obj.routes
-        @trains = exemple_obj.trains
-        @stations = exemple_obj.stations
+        take_some_in_carriage
+      when 10
+        view
+      when 11
+        example_obj = ExampleObj.new
+        example_obj.route
+        @stations = example_obj.stations
+        @trains = example_obj.trains
+        @routes = example_obj.routes
+        @carriages = example_obj.carriages
       end
     end
   end
@@ -47,12 +52,14 @@ class TextMenu
     puts 'enter  1: make station'
     puts 'enter  2: make train'
     puts 'enter  3: make route'
-    puts 'enter  4: changing stations in the route'
-    puts 'enter  5: assign route to train'
-    puts 'enter  6: changes in train wagon'
-    puts 'enter  7: move train'
-    puts 'enter  8: view objects'
-    puts 'enter  9: create a completed database of objects'
+    puts 'enter  4: make carriages'
+    puts 'enter  5: changing stations in the route'
+    puts 'enter  6: assign route to train'
+    puts 'enter  7: changes in train wagon'
+    puts 'enter  8: move train'
+    puts 'enter  9: take up space or volume in the carriage'
+    puts 'enter 10: view objects'
+    puts 'enter 11: create a completed database of objects'
     puts 'enter  0: exit the program'
   end
 
@@ -96,6 +103,22 @@ class TextMenu
   end
 
   # 4
+  def make_carriage
+    number = puts_gets_return('write carriage number').chomp
+    case puts_gets_return('make passenger/cargo: 1/2').to_i
+    when 1
+      @carriages << PassengerCarriage.new(number, puts_gets_return('write place number'))
+    when 2
+      @carriages << CargoCarriage.new(number, puts_gets_return('write volume'))
+    else
+      return puts_gets_return('incorrect input')
+    end
+    puts 'was make carriage'
+    @print_obj.carriage(@carriages.last)
+    gets
+  end
+
+  # 5
   def change_stations_in_route
     return puts_gets_return('no routes') if @routes[0].nil?
 
@@ -121,7 +144,7 @@ class TextMenu
     puts_gets_return('push to continue')
   end
 
-  # 5
+  # 6
   def assign_route_to_train
     return puts_gets_return('no trains') if @trains[0].nil?
 
@@ -135,7 +158,7 @@ class TextMenu
     puts_gets_return('push to continue')
   end
 
-  # 6
+  # 7
   def changes_in_train_carriage
     return puts_gets_return('no trains') if @trains[0].nil?
 
@@ -162,7 +185,7 @@ class TextMenu
     puts_gets_return('push to continue')
   end
 
-  # 7
+  # 8
   def move_train
     return puts_gets_return('no trains') if @trains[0].nil?
 
@@ -184,13 +207,34 @@ class TextMenu
     gets
   end
 
-  # 8
+  # 9
+  def take_some_in_carriage
+    return puts_gets_return('no carriages') if @carriages[0].nil?
+
+    carriage_i = @print_obj.carriages(@carriages)
+    return puts_gets_return('incorrect input') if @carriages[carriage_i].nil?
+
+    case @carriages[carriage_i].type
+    when 'Cargo'
+      @carriages[carriage_i].occupied_volume = puts_gets_return('how many volume you want take?').to_i
+    when 'Passenger'
+      @carriages[carriage_i].take_the_place
+    end
+    puts 'modified carriage:'
+    @user_print.carriage(@carriages[carriage_i])
+    gets
+  end
+
+  # 10
   def view
     puts 'enter 1: view stations'
     puts 'enter 2: view trains'
     puts 'enter 3: view routes'
-    puts 'enter 4: view stations in the route'
-    puts 'enter 5: view train int the station'
+    puts 'enter 4: view carriages'
+    puts 'enter 5: view stations in the route'
+    puts 'enter 6: view train int the station'
+    puts 'enter 7: view stations in full format'
+    puts 'enter 8: view trains in full format'
     case gets.to_i
     when 1
       return puts_gets_return 'no stations' if @stations[0].nil?
@@ -205,14 +249,26 @@ class TextMenu
 
       @user_print.routes(@routes)
     when 4
+      return puts_gets_return 'no carriages' if @carriages[0].nil?
+
+      @user_print.carriages(@carriages)
+    when 5
       return puts_gets_return 'no routes' if @routes[0].nil?
 
       @user_print.routes(@routes)
-    when 5
+    when 6
       return puts_gets_return 'no stations' if @stations[0].nil?
 
       station_i = @print_obj.stations(@stations)
       @user_print.train_in_the_station(@stations[station_i])
+    when 7
+      return puts_gets_return 'no stations' if @stations[0].nil?
+
+      @user_print.stations_in_full_format(@stations)
+    when 8
+      return puts_gets_return 'no train' if @trains[0].nil?
+
+      @trains.each { |train| @user_print.train_in_full_format(train) }
     end
     gets
   end
