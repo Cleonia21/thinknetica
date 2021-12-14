@@ -13,7 +13,7 @@ class Route
 
   include InstanceCounter
 
-  def initialize(first, last) # Здесь принимаем объект класса Станция, наверное валидировать вообще не нужно?
+  def initialize(first, last)
     @stations = [first, last]
     register_instance
   end

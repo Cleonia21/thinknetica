@@ -1,5 +1,6 @@
 require_relative 'company'
-# require_relative 'instance_counter'
+require_relative 'instance_counter'
+require_relative 'validation'
 
 class Train
   attr_accessor :speed, :route
@@ -10,6 +11,7 @@ class Train
 
   include Company
   include InstanceCounter
+  include Validation
 
   @@find = []
 
@@ -74,8 +76,9 @@ class Train
   private
 
   def valid!
-    raise "incorrect train type format" if @type !~ TYPE_FORMAT
-    raise "incorrect train number format" if @number !~ NUMBER_FORMAT
+    raise 'incorrect train number format' unless validate(@number, 'presence')
+    raise 'incorrect train number format' unless validate(@number, 'format', NUMBER_FORMAT)
+    raise 'incorrect train number format' unless validate(@number, 'type', ''.class)
   end
 
 end
