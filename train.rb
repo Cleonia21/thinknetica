@@ -18,7 +18,7 @@ class Train
   def initialize(number, type)
     @number = number
     @speed = 0
-    @carriages = [].each
+    @carriages = []
     @route = nil
     @route_location = 0
     @type = type
