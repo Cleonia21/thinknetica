@@ -18,13 +18,14 @@ class Train
   def initialize(number, type)
     @number = number
     @speed = 0
-    @carriages = []
+    @carriages = [].each
     @route = nil
     @route_location = 0
     @type = type
     @@find << self
     register_instance
-    valid!
+    @validation_param = [[number, 'presence', nil], [number, 'format', /^([a-z]|\d){3}-?([a-z]|\d){2}$/i], [number, 'type', 'String']]
+    validate!
   end
 
   def self.find(number)
@@ -64,21 +65,6 @@ class Train
 
   def next_station
     @route.stations[@route_location + 1] unless @route.nil?
-  end
-
-  def valid?
-    valid!
-      true
-    rescue
-      false
-  end
-
-  private
-
-  def valid!
-    raise 'incorrect train number format' unless validate(@number, 'presence')
-    raise 'incorrect train number format' unless validate(@number, 'format', NUMBER_FORMAT)
-    raise 'incorrect train number format' unless validate(@number, 'type', ''.class)
   end
 
 end
