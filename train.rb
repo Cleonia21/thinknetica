@@ -24,7 +24,7 @@ class Train
     @type = type
     @@find << self
     register_instance
-    @validation_param = [[number, 'presence', nil], [number, 'format', /^([a-z]|\d){3}-?([a-z]|\d){2}$/i], [number, 'type', 'String']]
+    @validation_param = [[number, 'presence', nil], [number, 'format', NUMBER_FORMAT], [number, 'type', 'String']]
     validate!
   end
 
