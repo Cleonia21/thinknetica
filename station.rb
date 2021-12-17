@@ -40,6 +40,10 @@ class Station
     @trains.find_all { |t| t.type == type }
   end
 
+  def action_over_train(&block)
+    @trains.each { |train| block.call(train) }
+  end
+
   def valid?
     valid!
     true
