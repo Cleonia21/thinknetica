@@ -11,8 +11,3 @@ require_relative 'menu_utils/user_print'
 require_relative 'company'
 require_relative 'instance_counter'
 
-# text_menu = TextMenu.new
-# text_menu.process
-
-train = Train.new('111-11', 'empty')
-puts train.valid?
