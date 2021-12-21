@@ -11,3 +11,4 @@ require_relative 'menu_utils/user_print'
 require_relative 'company'
 require_relative 'instance_counter'
 
+train = Train.new(123, 123)

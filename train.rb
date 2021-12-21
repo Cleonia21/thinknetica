@@ -3,15 +3,18 @@ require_relative 'instance_counter'
 require_relative 'validation'
 
 class Train
-  attr_accessor :speed, :route
-  attr_reader :carriages, :number, :type
-
-  NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i
-  TYPE_FORMAT = /(Cargo|Passenger|Empty)/
-
   include Company
   include InstanceCounter
   include Validation
+
+  attr_accessor :speed, :route
+  attr_reader :carriages, :number, :type
+
+  NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i.freeze
+  TYPE_FORMAT = /(Cargo|Passenger|Empty)/.freeze
+
+  validate :number, :format, NUMBER_FORMAT
+  validate :type, :format, TYPE_FORMAT
 
   @@find = []
 
@@ -24,7 +27,6 @@ class Train
     @type = type
     @@find << self
     register_instance
-    @validation_param = [[number, 'presence', nil], [number, 'format', NUMBER_FORMAT], [number, 'type', 'String']]
     validate!
   end
 

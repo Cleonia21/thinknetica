@@ -1,33 +1,52 @@
 module Validation
-  def validate(obj, validate_type, param = nil)
-    case validate_type.to_s
-    when 'presence'
-      return true if !obj.nil? && obj != ''
-    when 'format'
-      return true unless obj !~ param
-    when 'type'
-      return true if obj.class.to_s == param.to_s
+  module ClassMethods
+    def validate(field, method, *params)
+      define_method("validate_#{field}_#{method}") do # создаем метод
+        send(method.to_sym, instance_variable_get("@#{field}".to_sym), *params) # вызываем один из 3 описанных ниже методов
+      end
     end
-    false
+    # почему здесь при вызове метода через send он не выполняется?
+    # В классе train такая строка ничего не выполняет, по крайней мере ничего не происходит:
+    # validate :number, :format, NUMBER_FORMAT
   end
 
-  def validate!
-    i = 0
-    until @validation_param[i].nil?
-      raise 'bad param' unless validate(@validation_param[i][0], @validation_param[i][1], @validation_param[i][2])
-
-      i += 1
+  module InstanceMethods
+    def validate!
+      # А здесь через send вызываем метод без параметров,
+      # он отрабатывает с аргументами заданными выше. Как это работает?
+      public_methods.each { |method| send(method) if method =~ /^validate_/ }
+      true
     end
-    true
+
+    def valid?
+      validate!
+    rescue
+      false
+    end
+
+    protected
+
+    def presence(value)
+      raise "Value can't be blank" unless value.nil? || value == ''
+
+      true
+    end
+
+    def format(value, reg_exp)
+      raise 'Wrong value' unless value =~ reg_exp
+
+      true
+    end
+
+    def type(value, type_class)
+      raise 'Wrong type' unless value.instance_of?(type_class)
+
+      true
+    end
   end
 
-  def valid?
-    i = 0
-    until @validation_param[i].nil?
-      return false unless validate(@validation_param[i][0], @validation_param[i][1], @validation_param[i][2])
-
-      i += 1
-    end
-    true
+  def self.included(receiver)
+    receiver.extend         ClassMethods
+    receiver.send :include, InstanceMethods
   end
 end
