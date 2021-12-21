@@ -1,15 +1,20 @@
 require_relative 'company'
-# require_relative 'instance_counter'
+require_relative 'instance_counter'
+require_relative 'validation'
 
 class Train
+  include Company
+  include InstanceCounter
+  include Validation
+
   attr_accessor :speed, :route
   attr_reader :carriages, :number, :type
 
-  NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i
-  TYPE_FORMAT = /(Cargo|Passenger|Empty)/
+  NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i.freeze
+  TYPE_FORMAT = /(Cargo|Passenger|Empty)/.freeze
 
-  include Company
-  include InstanceCounter
+  validate :number, :format, NUMBER_FORMAT
+  validate :type, :format, TYPE_FORMAT
 
   @@find = []
 
@@ -22,7 +27,7 @@ class Train
     @type = type
     @@find << self
     register_instance
-    valid!
+    validate!
   end
 
   def action_over_carriage(&block)
@@ -66,20 +71,6 @@ class Train
 
   def next_station
     @route.stations[@route_location + 1] unless @route.nil?
-  end
-
-  def valid?
-    valid!
-      true
-    rescue
-      false
-  end
-
-  private
-
-  def valid!
-    raise "incorrect train type format" if @type !~ TYPE_FORMAT
-    raise "incorrect train number format" if @number !~ NUMBER_FORMAT
   end
 
 end
