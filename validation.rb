@@ -1,4 +1,8 @@
 module Validation
+
+  # Не придумал ничего лучше, чем найти готовое решение. Похоже на то что вы писали мне в телеграме,
+  # но и то, и это решение для меня не очевидно.
+
   module ClassMethods
     def validate(field, method, *params)
       define_method("validate_#{field}_#{method}") do # создаем метод
