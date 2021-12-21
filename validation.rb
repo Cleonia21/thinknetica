@@ -17,7 +17,7 @@ module Validation
   module InstanceMethods
     def validate!
       # А здесь через send вызываем метод без параметров,
-      # он отрабатывает с аргументами заданными выше. Как это работает?
+      # он отрабатывает с параметрами заданными выше. Как это работает?
       public_methods.each { |method| send(method) if method =~ /^validate_/ }
       true
     end
